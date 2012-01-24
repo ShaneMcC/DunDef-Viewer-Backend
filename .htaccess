@@ -1,2 +1,4 @@
 RewriteEngine On
 RewriteRule "^(.*/)?\.git/" - [F,L]
+
+RewriteRule ^/?getLayout/([0-9]+).(js)$ convert.php?type=$2&id=$1 [L]

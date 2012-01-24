@@ -3,7 +3,7 @@
 	$host = 'localhost';
 	$user = 'dundef';
 	$pass = '';
-	$db = 'dundef';
+	$database = 'dundef';
 
 	// Location of XML Files (Temporary)
 	$xmldir = '/home/shane/dd/';

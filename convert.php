@@ -15,5 +15,5 @@
 	$xmlfile = $xmldir . $id . '.xml';
 
 	header("content-type: application/x-javascript");
-	echo xml2json($xmlfile);
+	echo 'var layout = ' . xml2json($xmlfile, $id);
 ?>
