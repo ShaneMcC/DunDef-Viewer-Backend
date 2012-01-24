@@ -18,7 +18,7 @@
 			if (empty($json)) {
 				echo 'Importing ', $id, '... ';
 				$json = parseCN($file, $id);
-				insertLayout($json);
+				insertLayout($json, true, true);
 				echo 'Done!', "\n";
 			}
 		}

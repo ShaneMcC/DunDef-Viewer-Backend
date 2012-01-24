@@ -177,7 +177,7 @@ function myErrorHandler($errno, $errstr, $errfile, $errline)
 		return $result == null ? '' : json_encode($result);
 	}
 
-	function insertLayout($json, $safeDB = true) {
+	function insertLayout($json, $safeDB = true, $useID = false) {
 		global $__towerids, $__towers, $__classes;
 
 		$layout = @json_decode($json);
@@ -186,7 +186,7 @@ function myErrorHandler($errno, $errstr, $errfile, $errline)
 
 		$db = getDB($safeDB);
 
-		$publicid = empty($layout->id) ? 'AA' . base_convert(uniqid(), '16', '36') : (string)$layout->id;
+		$publicid = !$useID || empty($layout->id) ? 'AA' . base_convert(uniqid(), '16', '36') : (string)$layout->id;
 		$owner = empty($layout->owner) ? null : (int)$layout->owner;
 		$parent = empty($layout->parent) ? null : (string)$layout->parent;
 		$rating = empty($layout->rating) ? 0 : (int)$layout->rating;
