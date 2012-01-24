@@ -9,53 +9,34 @@
 		$units = explode(',', $xml->Layout->Costs);
 		$scales = explode(',', $xml->Layout->Scales);
 
-		$notes = urldecode($xml->Layout->Notes);
-		$notes = json_encode($notes);
-
-		$level = $xml->Layout->Map;
-		$leveldu = $xml->Layout->DU;
-		$rating = $xml->Layout->Rating;
-
-		$classes = array();
+		$result = array('level' => (int)$xml->Layout->Map,
+		                'du' => (int)$xml->Layout->DU,
+		                'rating' => (int)$xml->Layout->Rating,
+		                'notes' => (string)urldecode($xml->Layout->Notes),
+		                'towers' => array(),
+		                'classes' => array(),
+		               );
+		if ($result['du'] < 0) { unset($result['du']); }
 
 		ob_start();
-		echo 'towers: [', "\n";
 		for ($i = 0; $i < count($defenses); $i++) {
-			$left = $positions[$i * 2];
-			$top = $positions[($i * 2) + 1];
-			$rotation = $rotations[$i];
 			$tower = $towers[$defenses[$i] - 1];
-			$type = $tower['name'];
-			$classes[] = $tower['class'];
-			$du = $units[$defenses[$i]];
 
-			$scale = !empty($scales[$i]) ? $scales[$i] : 1;
+			$t = array();
+			$t['type'] = $tower['name'];
+			$t['position'] = array('left' => (float)$positions[$i * 2], 'top' => (float)$positions[($i * 2) + 1]);
+			$t['rotation'] = (float)$rotations[$i];
+			$t['cost'] = $units[$defenses[$i]];
+			$t['scale'] = !empty($scales[$i]) ? $scales[$i] : 1;
 
-			printf("    {type: '%s', position: {left: %.13g, top: %.13g}, rotation: %.13g, cost: %d, scale: %.13g},\n", $type, $left, $top, $rotation, $du, $scale);
+			$result['classes'][] = $tower['class'];
+
+			$result['towers'][] = $t;
 		}
-		echo '  ]', "\n";
-		$towers = ob_get_contents();
-		ob_end_clean();
 
-		$classes = array_unique($classes);
-		$classes = '[' . implode(',', $classes) . ']';
+		$result['classes'] = array_values(array_unique($result['classes']));
 
-		ob_start();
-	?>
-var layout = {
-  level: <?=$level; ?>,
-  du: <?=$leveldu; ?>,
-  rating: <?=$rating; ?>,
-  notes: <?=$notes; ?>,
-
-  <?=$towers; ?>,
-
-  classes: <?=$classes; ?>,
-}
-<?php
-		$result = ob_get_contents();
-		ob_end_clean();
-		return $result;
+		return 'var layout = ' . json_encode($result);
 	}
 
 ?>
