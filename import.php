@@ -5,9 +5,15 @@
 	$files = glob($xmldir . '/*.xml');
 	natsort($files);
 
+	// $db = getDB();
+	// $db->query('TRUNCATE TABLE `layouts`');
+
 	foreach ($files as $file) {
 		if (preg_match('#^.*/([0-9]+)\.xml$#', $file, $m)) {
 			$id = $m[1];
+
+			// if ($id < 13000 || $id > 13250) { continue; }
+
 			$json = getLayout($id);
 			if (empty($json)) {
 				echo 'Importing ', $id, '... ';

@@ -13,13 +13,13 @@
 	}
 
 
-	$classes = array(array('name' => 'Apprentice / Adept', 'class' => 'apprentice'),
+	$__classes = array(array('name' => 'Apprentice / Adept', 'class' => 'apprentice'),
 	                 array('name' => 'Squire / Countess', 'class' => 'squire'),
 	                 array('name' => 'Monk / Initiate', 'class' => 'monk'),
 	                 array('name' => 'Huntress / Ranger', 'class' => 'huntress'),
 	                 );
 
-	$towers = array(array('name' => 'ensnare', 'class' => '3'),
+	$__towers = array(array('name' => 'ensnare', 'class' => '3'),
 	                array('name' => 'electric', 'class' => '3'),
 	                array('name' => 'enrage', 'class' => '3'),
 	                array('name' => 'healing', 'class' => '3'),
@@ -41,6 +41,6 @@
 	                array('name' => 'darkness', 'class' => '4'),
 	               );
 
-	$towerids = array();
-	foreach ($towers as $id => $t) { $towerids[$t['name']] = $id; }
+	$__towerids = array();
+	foreach ($__towers as $id => $t) { $__towerids[$t['name']] = $id; }
 ?>

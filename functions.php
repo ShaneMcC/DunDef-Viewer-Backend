@@ -1,6 +1,6 @@
 <?php
 	function parseCN($xmlfile, $id = null, $isFile = true) {
-		global $towers, $classes;
+		global $__towers, $__classes;
 		if ($isFile) {
 			$xml = simplexml_load_file($xmlfile);
 		} else {
@@ -26,7 +26,7 @@
 
 		if (!empty($defenses[0])) {
 			for ($i = 0; $i < count($defenses); $i++) {
-				$tower = $towers[$defenses[$i] - 1];
+				$tower = $__towers[$defenses[$i] - 1];
 
 				$t = array();
 				$t['type'] = $tower['name'];
@@ -36,7 +36,7 @@
 				$t['scale'] = !empty($scales[$i]) ? (float)$scales[$i] : 1;
 				if ($t['cost'] == '-1') { unset($t['cost']); }
 
-				$result['classes'][] = $classes[$tower['class'] - 1]['class'];
+				$result['classes'][] = $__classes[$tower['class'] - 1]['class'];
 
 				$result['towers'][] = $t;
 			}
@@ -178,7 +178,7 @@ function myErrorHandler($errno, $errstr, $errfile, $errline)
 	}
 
 	function insertLayout($json, $safeDB = true) {
-		global $towerids, $towers, $classes;
+		global $__towerids, $__towers, $__classes;
 
 		$layout = @json_decode($json);
 		if (empty($layout)) { return FALSE; }
@@ -216,8 +216,8 @@ function myErrorHandler($errno, $errstr, $errfile, $errline)
 				$scale = empty($t->scale) ? 1 : (float)$t->scale;
 
 
-				$tower = $towers[$towerids[$type]];
-				$class[] = $classes[$tower['class'] - 1]['class'];
+				$tower = $__towers[$__towerids[$type]];
+				$class[] = $__classes[$tower['class'] - 1]['class'];
 
 
 				$tstmt = $db->prepare('INSERT into towers (`layoutid`, `type`, `top`, `left`, `rotation`, `cost`, `scale`) VALUES (?, ?, ?, ?, ?, ?, ?);');
@@ -226,6 +226,8 @@ function myErrorHandler($errno, $errstr, $errfile, $errline)
 					$result = false;
 				}
 			}
+
+			// if ($publicid = '13248') { var_dump($class); }
 
 			$class = implode(',', (array_unique($class)));
 			$stmt = $db->prepare('UPDATE layouts set `classes` = ? where `layoutid` = ?');
