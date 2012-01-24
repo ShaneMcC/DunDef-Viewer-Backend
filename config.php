@@ -40,4 +40,7 @@
 	                array('name' => 'etheral', 'class' => '4'),
 	                array('name' => 'darkness', 'class' => '4'),
 	               );
+
+	$towerids = array();
+	foreach ($towers as $id => $t) { $towerids[$t['name']] = $id; }
 ?>

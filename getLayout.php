@@ -12,8 +12,14 @@
 		die();
 	}
 
-	$xmlfile = $xmldir . $id . '.xml';
+	$json = getLayout($id);
+
+	if ($_REQUEST['type'] == 'xml') {
+		header("content-type: text/xml");
+		echo json2xml($json, 'layout');
+		return;
+	}
 
 	header("content-type: application/x-javascript");
-	echo xml2json($xmlfile, $id);
+	echo $json;
 ?>
