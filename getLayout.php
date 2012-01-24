@@ -8,7 +8,7 @@
 	} else if (!empty($argv[1])) {
 		$id = $argv[1];
 	}
-	if (!is_numeric($id) || $id < 1 || !file_exists($xmldir . $id . '.xml')) {
+	if (!preg_match('#^[0-9A-Za-z]+$#', $id)) {
 		die();
 	}
 
