@@ -120,7 +120,7 @@
 					                'du' => $row['units'],
 					                'rating' => $row['rating'],
 					                'notes' => $row['notes'],
-					                'created' => $row['created']
+					                'created' => $row['created'],
 					                'difficulty' => $row['difficulty'],
 					                'type' => $row['type'],
 					                'mode' => explode(',', $row['mode']),
