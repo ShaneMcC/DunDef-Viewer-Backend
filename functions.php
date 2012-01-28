@@ -121,7 +121,7 @@
 					                'rating' => $row['rating'],
 					                'notes' => $row['notes'],
 					                'difficulty' => $row['difficulty'],
-					                'type' => explode(',', $row['type']),
+					                'type' => $row['type'],
 					                'mode' => explode(',', $row['mode']),
 					                'towers' => array(),
 					                'classes' => explode(',', $row['classes']),
@@ -170,8 +170,8 @@
 		$level = empty($layout->level) ? 0 : (int)$layout->level;
 		$notes = empty($layout->notes) ? "" : (string)$layout->notes;
 		$difficulty = empty($layout->difficulty) ? "" : (string)$layout->difficulty;
-		$type = empty($layout->type) ? "" : (string)$layout->type;
-		$mode = empty($layout->mode) ? "" : (string)$layout->mode;
+		$type = empty($layout->type) ? "none" : (string)$layout->type;
+		$mode = empty($layout->mode) ? "none" : (string)$layout->mode;
 
 		$layoutid = -1;
 
