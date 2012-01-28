@@ -121,8 +121,8 @@
 					                'rating' => $row['rating'],
 					                'notes' => $row['notes'],
 					                'difficulty' => $row['difficulty'],
-					                'type' => $row['type'],
-					                'mode' => $row['mode'],
+					                'type' => explode(',', $row['type']),
+					                'mode' => explode(',', $row['mode']),
 					                'towers' => array(),
 					                'classes' => explode(',', $row['classes']),
 					               );
