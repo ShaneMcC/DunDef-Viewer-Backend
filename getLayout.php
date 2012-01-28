@@ -14,7 +14,7 @@
 
 	$json = getLayout($id);
 
-	if ($_REQUEST['type'] == 'xml') {
+	if (isset($_REQUEST['type']) && $_REQUEST['type'] == 'xml') {
 		header("content-type: text/xml");
 		echo json2xml($json, 'layout');
 		return;
