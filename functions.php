@@ -118,12 +118,21 @@
 					                'du' => $row['units'],
 					                'rating' => $row['rating'],
 					                'notes' => $row['notes'],
+					                'difficulty' => $row['difficulty'],
+					                'type' => $row['type'],
+					                'mode' => $row['mode'],
 					                'towers' => array(),
 					                'classes' => explode(',', $row['classes']),
 					               );
 
 					if ($result['du'] < 0) { unset($result['du']); }
-					if ($result['parent'] == null) { unset($result['parent']); }
+
+					foreach (array('parent', 'difficulty', 'type', 'mode') as $opt) {
+						if (empty($result[$opt])) {
+							unset($result[$opt]);
+						}
+					}
+
 					if (!$includeLayoutID) { unset($result['layoutid']); }
 				}
 
@@ -158,14 +167,18 @@
 		$units = empty($layout->du) ? -1 : (int)$layout->du;
 		$level = empty($layout->level) ? 0 : (int)$layout->level;
 		$notes = empty($layout->notes) ? "" : (string)$layout->notes;
+		$difficulty = empty($layout->difficulty) ? "" : (string)$layout->difficulty;
+		$type = empty($layout->type) ? "" : (string)$layout->type;
+		$mode = empty($layout->mode) ? "" : (string)$layout->mode;
+
 		$layoutid = -1;
 
 		if (count($layout->towers) == 0 || $level == 0) { return FALSE; }
 
 		$db->autocommit(false);
 
-		$stmt = $db->prepare('INSERT into layouts (`publicid`, `parentid`, `ownerid`, `rating`, `units`, `level`, `notes`) VALUES (?, ?, ?, ?, ?, ?, ?);');
-		$stmt->bind_param("ssiiiis", $publicid, $parent, $owner, $rating, $units, $level, $notes);
+		$stmt = $db->prepare('INSERT into layouts (`publicid`, `parentid`, `ownerid`, `rating`, `units`, `level`, `notes`, `difficulty`, `type`, `mode`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);');
+		$stmt->bind_param("ssiiiissss", $publicid, $parent, $owner, $rating, $units, $level, $notes, $difficulty, $type, $mode);
 		if ($stmt->execute()) {
 			$layoutid = $stmt->insert_id;
 			$error = false;
