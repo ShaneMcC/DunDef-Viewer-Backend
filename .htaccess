@@ -1,7 +1,7 @@
 RewriteEngine On
 RewriteRule "^(.*/)?\.git/" - [F,L]
 
-RewriteRule ^/?getLayout/([0-9]+)(?:\.([a-z]+))?$ getLayout.php?type=$2&id=$1 [L]
+RewriteRule ^/?getLayout/([0-9A-Za-z]+)(?:\.([a-z]+))?$ getLayout.php?type=$2&id=$1 [L]
 
 RewriteRule ^/?saveLayout/([a-z]+)?$ saveLayout.php?type=$1 [L]
 RewriteRule ^/?saveLayout$ saveLayout.php [L]

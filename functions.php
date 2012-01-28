@@ -86,7 +86,9 @@
 		$meta = $stmt->result_metadata();
 		$params = array();
 		while ($field = $meta->fetch_field()) {
-			$params[] = &$row[$field->name];
+			$id = !array_key_exists($field->name, $row) ? $field->name : $field->table . '.' . $field->name;
+			// $row[$id] = $field;
+			$params[] = &$row[$id];
 		}
 
 		call_user_func_array(array($stmt, 'bind_result'), $params);
@@ -137,7 +139,7 @@
 				}
 
 				$t = array();
-				$t['type'] = (string)$row['type'];
+				$t['type'] = (string)$row['t.type'];
 				$t['position'] = array('left' => (float)$row['left'], 'top' => (float)$row['top']);
 				$t['rotation'] = (float)$row['rotation'];
 				$t['cost'] = (int)$row['cost'];
