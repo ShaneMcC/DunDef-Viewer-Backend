@@ -122,13 +122,13 @@
 	while (($row = statement_fetch_assoc($stmt)) !== FALSE) {
 		$res = array('id' => $row['publicid'],
 		             'notes' => $row['notes'],
-		             'classes' => $row['classes'],
+		             'classes' => explode(',', $row['classes']),
 		             'units' => $row['units'],
 		             'rating' => $row['rating'],
 		             'level' => $row['level'],
 		             'difficulty' => $row['difficulty'],
 		             'type' => $row['type'],
-		             'mode' => $row['mode'],
+		             'mode' => explode(',', $row['mode']),
 		             );
 		if ($res['units'] < 0) { unset($res['units']); }
 		$result[] = $res;
