@@ -49,8 +49,9 @@
 		if (isset($_REQUEST['units'])) { $searchData['units'] = $_REQUEST['units']; }
 		if (isset($_REQUEST['notes'])) { $searchData['notes'] = $_REQUEST['notes']; }
 		if (isset($_REQUEST['rating'])) { $searchData['rating'] = $_REQUEST['rating']; }
-
-		//TODO: Difficulty, Type, Mode
+		if (isset($_REQUEST['difficulty'])) { $searchData['difficulty'] = $_REQUEST['difficulty']; }
+		if (isset($_REQUEST['type'])) { $searchData['type'] = $_REQUEST['type']; }
+		if (isset($_REQUEST['mode'])) { $searchData['mode'] = explode(',', $_REQUEST['mode']); }
 
 		// Turn into a stdClass to use below...
 		$searchData = json_decode(json_encode($searchData));
@@ -78,6 +79,38 @@
 		$where[] = 'level <= ?';
 		addParam($units, 'i');
 	}
+
+	if (!empty($searchData->difficulty)) {
+		$difficulty = $searchData->difficulty;
+		$where[] = 'difficulty = ?';
+		addParam($difficulty, 's');
+	}
+
+	if (!empty($searchData->type)) {
+		$type = $searchData->type;
+		$where[] = 'type = ?';
+		addParam($type, 's');
+	}
+
+
+	$allmodes = array('none' => false, 'normal' => false, 'hardcore' => false, 'mixed' => false, 'strategy' => false);
+	if (!empty($searchData->mode)) {
+		$modes = $searchData->mode;
+		$modes = !is_array($modes) ? array($modes) : $modes;
+		foreach ($modes as $mode) {
+			if (isset($allmodes[$mode])) {
+				$allmodes[$mode] = true;
+			}
+		}
+
+		foreach ($allmodes as $m => $allowed) {
+			if (!$allowed) {
+				$where[] = ' NOT FIND_IN_SET(?, mode) ';
+				addParam($m, 's');
+			}
+		}
+	}
+
 
 	if (!empty($searchData->notes)) {
 		$notes = $searchData->notes;
